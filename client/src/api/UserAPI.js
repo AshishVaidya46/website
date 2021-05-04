@@ -1,11 +1,15 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 
+
 function UserAPI(token) {
     const [isLogged, setIsLogged] = useState(false)
     const [isAdmin, setIsAdmin] = useState(false)
     const [cart, setCart] = useState([])
+    const [total, setTotal] = useState(0)
     const [userName, setUserName] = useState("")
+    const [userEmail, setUserEmail] = useState('')
+
 
     useEffect(() => {
         if(token) {
@@ -18,6 +22,7 @@ function UserAPI(token) {
                     res.data.role === 1 ? setIsAdmin(true) : setIsAdmin(false)
 
                     setUserName(res.data.name)
+                    setUserEmail(res.data.email)
 
                     setCart(res.data.cart)
 
@@ -25,7 +30,6 @@ function UserAPI(token) {
                     alert(err.response.data.msg)
                 }
             }
-
             getUser()
         }
     }, [token])
@@ -54,7 +58,10 @@ function UserAPI(token) {
         isAdmin: [isAdmin, setIsAdmin],
         cart: [cart, setCart],
         addCart: addCart,
-        userName:[userName, setUserName]
+        userName:[userName, setUserName],
+        userEmail:[userEmail, setUserEmail],
+        total:[total,setTotal]
+
     });
 }
 

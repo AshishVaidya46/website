@@ -60,6 +60,8 @@
     "react-refresh": "^0.8.3",
     "react-responsive-carousel": "^3.2.18",
     "react-router-dom": "^5.2.0",
+    "react-stripe-checkout": "^2.6.3",
+    "react-toastify": "^7.0.4",
     "resolve": "1.18.1",
     "resolve-url-loader": "^3.1.2",
     "sass-loader": "8.0.2",

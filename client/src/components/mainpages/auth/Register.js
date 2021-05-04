@@ -4,8 +4,7 @@ import axios from 'axios'
 
 function Register() {
     const [user, setUser] = useState({
-        name:'', email:'', password:'',
-        address:'', city:'',state:'',zip:''
+        name:'', email:'', password:''
     })
 
     const onChangeInput = e => {
@@ -35,18 +34,7 @@ function Register() {
 
                 <input type="password" name="password" required autoComplete="on"
                 placeholder="Password" value={user.password} onChange={onChangeInput}/>
-
-                <input type="address" name="address" required 
-                placeholder="address" value={user.address} onChange={onChangeInput}/>
-
-                <input type="city" name="city" required 
-                placeholder="city" value={user.city} onChange={onChangeInput}/>
-
-                <input type="state" name="state" required 
-                placeholder="state" value={user.state} onChange={onChangeInput}/>
-
-                <input type="zip code" name="zip" required 
-                placeholder="zip" value={user.zip} onChange={onChangeInput}/>             
+            
 
                 <div className="row">
                     <button type="submit">Register</button>

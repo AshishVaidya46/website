@@ -87,6 +87,8 @@ button {
     margin: 50px;
   }
   header .menu{
+    margin: 12px;
+    position:absolute;
     display: block;
     cursor: pointer;
   }
@@ -98,11 +100,13 @@ button {
   header{
     justify-content: space-between;
   }
+  
 }
 @media (max-width: 370px) {
   .filter_menu .row span{
     display: block;
   }
+  
 }
 @media (max-width: 550px) {
   .App{

@@ -1,6 +1,5 @@
 import React, {useContext} from 'react';
 import {GlobalState} from '../../../GlobalState';
-import Carousel from '../carousel'
 
 function Filters() {
     const state = useContext(GlobalState)

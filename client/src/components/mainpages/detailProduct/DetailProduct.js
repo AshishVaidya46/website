@@ -26,16 +26,16 @@ function DetailProduct() {
             <img src={detailProduct.images.url} alt="" />
             <div className="box-detail">
                 <div className="row">
-                    <h2>{detailProduct.title}</h2>
+                    <h4>{detailProduct.title}</h4>
                     <h6>{detailProduct.product_id}</h6>
                 </div>
                 <span>₹ {detailProduct.price}</span>
-                <p>{detailProduct.description}</p>
-                <p>{detailProduct.content}</p>
+                <h6>{detailProduct.description}</h6>
+                <h6>{detailProduct.content}</h6>
                 <p>Sold: {detailProduct.sold}</p>
                 <Link to ="/cart" className="cart"
                 onClick={() => addCart(detailProduct)}>
-                Add To Cart
+                <h6>Add To Cart</h6>
                 </Link>
             </div>
         </div>

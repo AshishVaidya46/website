@@ -18,7 +18,6 @@ app.use(fileUpload({
 
 // middlewares
 app.use(express.json({ extended: false }));
-
 //Routes
 app.use('/user', require('./routes/userRouter'))
 app.use('/api', require('./routes/categoryRouter'))

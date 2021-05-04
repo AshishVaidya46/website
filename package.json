@@ -23,7 +23,9 @@
     "mongoose": "^5.12.4",
     "nodemon": "^2.0.6",
     "razorpay": "^2.0.6",
-    "shortid": "^2.2.16"
+    "shortid": "^2.2.16",
+    "stripe": "^8.145.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {}
 }

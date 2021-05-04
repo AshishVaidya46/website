@@ -1,69 +1,52 @@
-require("dotenv").config();
 const express = require("express");
-const Razorpay = require("razorpay");
-
+const stripe = require("stripe")
+("sk_test_51ImeGQSJnujPryRaIZ4vPJhc1sgHpyq5BDTOxtcwZlFjomQqIdCNqXlVvlghs6dfcSRil1lqzYSZ5G52GT7y9GLC00IWGgecSF")
+const uuid = require('uuid').v4
 const router = express.Router();
 
-router.post("/orders", async (req, res) => {
+router.post("/checkout", async (req, res) => {
+    console.log("Request:", req.body);
+
+    let error;
+    let status;
     try {
-        const instance = new Razorpay({
-            key_id: process.env.RAZORPAY_KEY_ID,
-            key_secret: process.env.RAZORPAY_SECRET,
+        const {total, token } = req.body;
+
+        const customer = await
+        stripe.customers.create({
+            email: token.email,
+            source: token.id
         });
 
-        const options = {
-            amount:50000,
+        const idempotency_key = uuid();
+        const charge = await stripe.charges.create({
+            amount: total * 100,
             currency: "INR",
-            receipt: "receipt_order_74394",
-        };
-
-        instance.orders.create(options,(error, order) => {
-            if(error){
-                return res.status(500).send("Some error occured");
-            }else{
-                res.json(order)
+            customer: customer.id,
+            receipt_email: token.email,
+            description: `purchase the ${token.card.name}`,
+            shipping: {
+                name: token.card.name,
+               address: {
+                   line1: token.card.address_line1,
+                   line2: token.card.address_line2,
+                   city: token.card.address_city,
+                   country: token.card.address_country,
+                   postal_code: token.card.address_zip,
+               } 
             }
+
+        },{
+            idempotency_key
         });
-
+        console.log("charge:", {charge});
+        status = "success";
     } catch (error) {
-        res.status(500).send(error);
+        console.error("Error:", error);
+        status = "failure";
     }
-});
 
-router.post('/success', async (req, res) => {
-    try {
-        // getting the details back from our font-end
-        const {
-            orderCreationId,
-            razorpayPaymentId,
-            razorpayOrderId,
-            razorpaySignature,
-        } = req.body;
-
-        // Creating our own digest
-        // The format should be like this:
-        // digest = hmac_sha256(orderCreationId + "|" + razorpayPaymentId, secret);
-        const shasum = crypto.createHmac("sha256", "w2lBtgmeuDUfnJVp43UpcaiT");
-
-        shasum.update(`${orderCreationId}|${razorpayPaymentId}`);
-
-        const digest = shasum.digest("hex");
-
-        // comaparing our digest with the actual signature
-        if (digest !== razorpaySignature)
-            return res.status(400).json({ msg: "Transaction not legit!" });
-
-        // THE PAYMENT IS LEGIT & VERIFIED
-        // YOU CAN SAVE THE DETAILS IN YOUR DATABASE IF YOU WANT
-
-        res.json({
-            msg: "success",
-            orderId: razorpayOrderId,
-            paymentId: razorpayPaymentId,
-        });
-    } catch (error) {
-        res.status(500).send(error);
-    }
+    res.json({error, status});
 });
 
 module.exports = router
