@@ -15,22 +15,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    address: {
-        type: String,
-        required: true
-    },
-    city:{
-        type: String,
-        required:true
-    },
-    state: {
-        type:String,
-        required:true
-    },
-    zip: {
-        type:Number,
-        required:true
-    },
     role: {
         type: Number,
         default: 0
@@ -39,9 +23,8 @@ const userSchema = new mongoose.Schema({
         type: Array,
         default: []
     }
- }, {
-        timestamps: true
-   
- })
+},{
+    timestamps: true
+})
 
 module.exports = mongoose.model('Users', userSchema)

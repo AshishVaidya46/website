@@ -1,10 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import {GlobalState} from '../../GlobalState';
-import Menu from './icon/menu.svg';
-import Close from './icon/close.svg';
 import Cart from './icon/cart.svg';
-import {Link} from 'react-router-dom';
 import axios from 'axios';
+import userImg from './icon/user.svg'
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -14,9 +13,7 @@ function Header() {
    const [isLogged] = state.userAPI.isLogged
    const [isAdmin] = state.userAPI.isAdmin
    const [cart] = state.userAPI.cart
-   const [userName] =state.userAPI.userName
-   const [menu, setMenu] = useState(false)
-
+   const [user] =state.userAPI.user
 
    const logoutUser = async () =>{
        await axios.get('/user/logout')
@@ -27,61 +24,67 @@ function Header() {
    const adminRouter = () =>{
        return(
            <>
-               <li ><Link to="/create_product" onClick={() => setMenu(!menu)} style={{ textDecoration: 'none', color:'black' }}>Create Product</Link></li>
-               <li ><Link to="/category" onClick={() => setMenu(!menu)} style={{ textDecoration: 'none', color:'black' }}>Catogories</Link></li>
+               <Nav.Link href="/create_product">Create Product</Nav.Link>
+               <Nav.Link href="/category" >Catogories</Nav.Link>
            </>
        )
    }
    const loggedRouter = () =>{
     return(
       <>
-      <li><Link to="/profile" onClick={() => setMenu(!menu)} style={{ textDecoration: 'none', color:'black' }}>{userName}</Link></li>
-      <li><Link to="/history" onClick={() => setMenu(!menu)} style={{ textDecoration: 'none', color:'black' }}>History</Link></li>
-      <li><Link to="/" onClick={logoutUser}  style={{ textDecoration: 'none', color:'black' }}>Logout</Link></li>
+        <NavDropdown title={isAdmin ? 'Admin' : user.name} id="basic-nav-dropdown">
+        <img src={userImg} alt={userImg} 
+                    style={{
+                        borderRadius: '50%', width: '28px', height: '28px',
+                        transform: 'translateY(-3px)', marginRight: '3px'
+                    }} /> <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
+                    {
+                        isAdmin &&  <NavDropdown.Item href="/user_info">Users</NavDropdown.Item>
+                    }
+            <NavDropdown.Divider />
+             <NavDropdown.Item href="/" onClick={logoutUser}>Logout</NavDropdown.Item>
+        </NavDropdown>
+        
       </>
     )
   }
 
 
-  const styleMenu = {
-    left: menu ? 0 : "-100%"
-  }
     return (
-        <header>
-            <div className="menu" onClick={() => setMenu(!menu)}>
-                <img src={Menu} alt="" width="30" />
-            </div>
-            <div class="brand">
-                <h2>
-                   {isAdmin ? 'Admin' : "V-Eats" }
-                </h2>
-            </div>
-            <>
-      </>
-            <ul className="nav justify-content-end" style={styleMenu}>
-                <li><Link to="/" onClick={() => setMenu(!menu)} style={{ textDecoration: 'none', color:'black' }}>{isAdmin ? 'Products' : 'Home'}</Link></li>
+        <Navbar bg="light" expand="lg">
+  <Navbar.Brand href="/">Elegnate</Navbar.Brand>
+  <Navbar.Toggle aria-controls="basic-navbar-nav" className="justify-content-end" />
+  <Navbar.Collapse id="basic-navbar-nav">
+    <Nav className="mr-auto"> </Nav> 
 
-                {isAdmin && adminRouter()}
+      <Nav.Link href="/">{isAdmin ? 'Products' : 'Home'}</Nav.Link>
+      {isAdmin && adminRouter()}
                 {
-                    isLogged ? loggedRouter() : <li class="nav-item"><Link to="/login" onClick={() => setMenu(!menu)} style={{ textDecoration: 'none', color:'black' }}>Login OR Register</Link></li>
+                    isLogged ? loggedRouter() : <Nav.Link href="/login">Login OR Register</Nav.Link>
                 }
-                
-                <li onClick={() => setMenu(!menu)}>
-                   <img src={Close} alt="" width="30" className="menu" />
-                </li>
-            
-
-            {
+           {
                 isAdmin ? ''
-                :<div className="cart-icon">
-                    <span>{cart.length}</span>
-                    <Link to ="/cart" onClick={() => setMenu(!menu)}>
-                        <img src={Cart} alt="" width="30" />
-                    </Link>
-                </div>
+                :        <Nav.Link  href="/cart">
+                                <i className="fas fa-shopping-cart position-relative" aria-hidden="true">
+                                    <span className="position-absolute"
+                                    style={{
+                                        padding: '3px 6px',
+                                        background: '#ed143dc2',
+                                        borderRadius: '50%',
+                                        top: '-10px',
+                                        right: '-10px',
+                                        color: 'white',
+                                        fontSize: '14px'
+                                    }}>
+                                        {cart.length}
+                                    </span>
+                                </i> <img src={Cart} alt={Cart} width='25'/>
+                        </Nav.Link>
             }
-            </ul>
-        </header>
+  </Navbar.Collapse>
+</Navbar>
+
+
     );
 }
 

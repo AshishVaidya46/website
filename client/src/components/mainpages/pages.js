@@ -10,6 +10,10 @@ import Categories from './categories/Categories';
 import CreateProduct from './createProduct/CreateProduct'
 import Profile from './profile/Profile'
 import {GlobalState} from '../../GlobalState'
+import Users from './profile/Users'
+import OrderDetails from './History/OrderDetails'
+import EditProfile from './profile/EditProfile'
+
 
 function pages() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -26,9 +30,13 @@ function pages() {
             <Route path="/register" exact component={isLogged ? NotFound : Register} />
 
             <Route path="/profile" exact component={isLogged ? Profile : Login} />
+            <Route path="/edit_profile/:id" exact component={isLogged ? EditProfile : NotFound} />
+
 
             <Route path="/cart" exact component={isLogged ? Cart : Login} />
-
+            <Route path="/history/:id" exact component={isLogged ? OrderDetails : NotFound} />
+            
+            <Route path="/user_info" exact component={isAdmin ? Users : NotFound} />
             <Route path="/category" exact component={isAdmin ? Categories : NotFound} />
             <Route path="/create_product" exact component={isAdmin ? CreateProduct : NotFound} />
             <Route path="/edit_product/:id" exact component={isAdmin ? CreateProduct : NotFound} />
@@ -43,3 +51,4 @@ function pages() {
 }
 
 export default pages;
+

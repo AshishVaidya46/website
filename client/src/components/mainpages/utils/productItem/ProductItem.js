@@ -1,29 +1,33 @@
 import React from 'react';
 import BtnRender from './BtnRender';
-import {Link} from 'react-router-dom'
+import {Card} from 'react-bootstrap'
 
 function ProductItem({product, isAdmin, deleteProduct, handleCheck}) {
 
         return (
-        <div className="product_card">
-        {
-            isAdmin && <input type="checkbox" checked={product.checked} 
-                onChange={() => handleCheck(product._id)}
-            />
-        }
-            <img src={product.images.url} alt="" />
+            <Card style={{ width: '18rem' }} >
+            {
+                        isAdmin && <input type="checkbox" checked={product.checked} 
+                            onChange={() => handleCheck(product._id)}
+                        />
+                    }
+              <Card.Img variant="top" src={product.images.url} alt={product.images.url}/>
+              <Card.Body >
+                <Card.Title>{product.title}</Card.Title>
+                 <div className="row justify-content-between mx-0">
+                                <h6 className="text-danger">₹{product.price}</h6>
+                                
+                            </div>
+                <Card.Text>
+                    {product.description}
+                </Card.Text>
+                <Card.Link>{product.content}</Card.Link>
+                <div aria-disabled={product.inStock === 0}>
 
-            <div className="product_box">
-                <h2 title={product.title}>{product.title}</h2>
-                <span>₹{product.price}</span>
-                <br />
-                <Link style={{ textDecoration: 'none' }}>{product.content} </Link>
-                <p>{product.description}</p>
-            </div>
-
-            <BtnRender product={product} deleteProduct={deleteProduct} />
-
-        </div>
+                    <BtnRender product={product} deleteProduct={deleteProduct} />
+                </div>
+              </Card.Body>
+            </Card>
     );
 }
 

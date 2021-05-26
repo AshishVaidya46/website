@@ -1,5 +1,6 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {GlobalState} from '../../../GlobalState';
+import Corousel from '../carousel'
 
 function Filters() {
     const state = useContext(GlobalState)
@@ -29,7 +30,7 @@ function Filters() {
             </select>
         </div>
 
-        <input type="text" value={search} placeholder="Enter your Search!"
+        <input type="text" value={search} placeholder="Enter your Search!" 
         onChange={e => setSearch(e.target.value.toLowerCase())} />
         
         <div className="row sort" >
@@ -42,6 +43,7 @@ function Filters() {
             </select>
         </div>
     </div>
+    
         </>
         
     );

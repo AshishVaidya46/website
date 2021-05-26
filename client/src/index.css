@@ -15,7 +15,7 @@ code {
 .App{
   margin: 0 20px 0 20px;
   box-shadow: 0 0 35px #eee;
-  background: rgb(253, 238, 238);
+  background: rgb(243, 237, 237);
 
 }
 a{
@@ -56,6 +56,13 @@ button {
 
 /*----------product----------*/
 @import url("./components/mainpages/createProduct/createProduct.css");
+
+@import url("./components/mainpages/utils/loading/Loading.css");
+
+@import url("./components//mainpages/History/history.css");
+
+/*----------Profile----------*/
+@import url("./components//mainpages//profile/profile.css");
 
 @media (max-width: 820px){
   header .brand h2{

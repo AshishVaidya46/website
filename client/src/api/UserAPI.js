@@ -7,33 +7,59 @@ function UserAPI(token) {
     const [isAdmin, setIsAdmin] = useState(false)
     const [cart, setCart] = useState([])
     const [total, setTotal] = useState(0)
-    const [userName, setUserName] = useState("")
-    const [userEmail, setUserEmail] = useState('')
-
+    const [userID, setUserID] = useState('')
+    const [history, setHistory] = useState([])
+    const [callback, setCallback] =useState(false)
+    const [user, setUser] = useState('') 
+    const [users,setUsers] = useState([])
 
     useEffect(() => {
         if(token) {
             const getUser = async () =>{
-                try {
+                    if(isAdmin){
+                        const res = await axios.get('/user/users_info', {
+                        headers: {Authorization: token}
+                    })
+                    setUsers(res.data)
+                    }else{
                     const res = await axios.get('/user/infor', {
                         headers: {Authorization: token}
                     })
                     setIsLogged(true)
                     res.data.role === 1 ? setIsAdmin(true) : setIsAdmin(false)
 
-                    setUserName(res.data.name)
-                    setUserEmail(res.data.email)
+                    setUser(res.data)
+                    
+                    setUserID(res.data._id)
 
                     setCart(res.data.cart)
-
-                } catch (err) {
-                    alert(err.response.data.msg)
                 }
+                
             }
             getUser()
         }
-    }, [token])
+    }, [token,callback, isAdmin])
  
+    useEffect(() => {
+        if(token) {
+            const getHistory = async () =>{
+                if(isAdmin){
+                    const res = await axios.get('/api/checkout', {
+                        token
+                    })
+                    setHistory(res.data) 
+                }else{
+                    const res = await axios.get('/user/history', {
+                        headers: {Authorization: token}
+                    })
+                    
+                    setHistory(res.data) 
+                }
+            }
+            getHistory()
+        }
+    }, [token, callback, isAdmin])
+
 
     const addCart = async (product) => {
         if(!isLogged){
@@ -58,10 +84,12 @@ function UserAPI(token) {
         isAdmin: [isAdmin, setIsAdmin],
         cart: [cart, setCart],
         addCart: addCart,
-        userName:[userName, setUserName],
-        userEmail:[userEmail, setUserEmail],
-        total:[total,setTotal]
-
+        total:[total,setTotal],
+        userID: [userID, setUserID],
+        history:[history, setHistory],
+        callback: [callback, setCallback] ,
+        user: [user, setUser],
+        users:[users, setUsers]
     });
 }
 

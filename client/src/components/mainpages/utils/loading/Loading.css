@@ -1,21 +1,24 @@
-.load-page {
-    background: #fff;
-    overflow: hidden;
+.loading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.loader{
-    width: 100px;
-    height: 100px;
-    margin: auto;
+.loading svg{
+    font-size: 5px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    animation: text 1s ease-in-out infinite;
 }
-.loader div {
-    width: calc(100% - 15px);
-    height: calc(100% - 15px);
-    border: 2px solid #fff;
-    border-top: 2px solid rgb(20, 73, 220);
-    border-radius: 50%;
-    animation: rotate 10s linear infinite alternate-reverse;
+@keyframes text{
+    50%{ opacity: 0.1;}
 }
-@keyframes rotate {
-    50%{transform: rotate(80deg);}
-    100%{transform: rotate(360deg);}
+.loading polygon{
+    stroke-dasharray: 22;
+    stroke-dashoffset: 1;
+    animation: dash 4s cubic-bezier(0.455, 0.03, 0.515, 0.955)
+    infinite alternate-reverse;
+}
+@keyframes dash{
+    to{stroke-dashoffset: 234;}
 }

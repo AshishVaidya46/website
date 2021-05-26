@@ -8,11 +8,11 @@ function App() {
   return (
     <DataProvider>
       <Router>
-        <div className="App">
+        <div className="container-fluid App">
           <Header/>
-          <MainPages/>
+          <MainPages />
         </div>
-      </Router>
+        </Router>
     </DataProvider>
   );
 }

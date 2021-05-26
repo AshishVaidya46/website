@@ -1,21 +1,29 @@
-import React, { useState } from 'react';
-import {Link} from 'react-router-dom';
+import React, {useState} from 'react'
+import {Link} from 'react-router-dom'
 import axios from 'axios'
+import valid from './valid'
 
 function Register() {
     const [user, setUser] = useState({
-        name:'', email:'', password:''
+        name:'', email:'', password: ''
     })
+    const {name, email, password} = user
 
-    const onChangeInput = e => {
+    const onChangeInput = e =>{
         const {name, value} = e.target;
         setUser({...user, [name]:value})
     }
+
     const registerSubmit = async e =>{
         e.preventDefault()
+        const errMsg = valid(name, email, password)
+        if(errMsg) return alert(errMsg)
         try {
-            await axios.post('./user/register', {...user})
+            await axios.post('/user/register', {...user})
+
             localStorage.setItem('firstLogin', true)
+
+            
             window.location.href = "/";
         } catch (err) {
             alert(err.response.data.msg)
@@ -25,16 +33,15 @@ function Register() {
     return (
         <div className="login-page">
             <form onSubmit={registerSubmit}>
-            <h2>Register</h2>
-                <input type="name" name="name" required
+                <h2>Register</h2>
+                <input type="text" name="name" required
                 placeholder="Name" value={user.name} onChange={onChangeInput} />
 
                 <input type="email" name="email" required
                 placeholder="Email" value={user.email} onChange={onChangeInput} />
 
                 <input type="password" name="password" required autoComplete="on"
-                placeholder="Password" value={user.password} onChange={onChangeInput}/>
-            
+                placeholder="Password" value={user.password} onChange={onChangeInput} />
 
                 <div className="row">
                     <button type="submit">Register</button>
@@ -42,7 +49,7 @@ function Register() {
                 </div>
             </form>
         </div>
-    );
+    )
 }
 
-export default Register;
+export default Register
