@@ -12,8 +12,12 @@ import Profile from './profile/Profile'
 import {GlobalState} from '../../GlobalState'
 import Users from './profile/Users'
 import OrderDetails from './History/OrderDetails'
-import EditProfile from './profile/EditProfile'
-
+import Success from './cart/success'
+import Canceled from './cart/canceled'
+import SuccessCash from './cart/SuccessCash'
+import Checkout from './checkout/Checkout';
+import SearchProducts from './search/SearchProducts';
+import Home from './Home'
 
 function pages() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -25,26 +29,28 @@ function pages() {
     return (
         <Switch>
             <Route path="/" exact component={Products} />
+            <Route path="/home" exact component={Home}/>
             <Route path="/detail/:id" exact component={DetailProduct} />
             <Route path="/login" exact component={isLogged ? NotFound : Login} />
             <Route path="/register" exact component={isLogged ? NotFound : Register} />
+            <Route path="/cart/checkout/:id" exact component={isLogged ? Checkout : NotFound}/>
 
             <Route path="/profile" exact component={isLogged ? Profile : Login} />
-            <Route path="/edit_profile/:id" exact component={isLogged ? EditProfile : NotFound} />
 
+             <Route path="/success/:id" exact component={isLogged ? Success : NotFound}/>
+             <Route path="/canceled/:id" exact component={isLogged ? Canceled : NotFound} />
+             <Route path="/success_cash/:id" exact component={isLogged ? SuccessCash : NotFound}/>
 
             <Route path="/cart" exact component={isLogged ? Cart : Login} />
             <Route path="/history/:id" exact component={isLogged ? OrderDetails : NotFound} />
             
+            <Route path="/products/:name" exact component={SearchProducts}/>
             <Route path="/user_info" exact component={isAdmin ? Users : NotFound} />
             <Route path="/category" exact component={isAdmin ? Categories : NotFound} />
             <Route path="/create_product" exact component={isAdmin ? CreateProduct : NotFound} />
             <Route path="/edit_product/:id" exact component={isAdmin ? CreateProduct : NotFound} />
 
-
-            <Route path="/cart" exact component={Cart} />
-
-            <Route path="*" exact component={NotFound} />
+            <Route path="/*" exact component={NotFound} />
         </Switch>
         
     );

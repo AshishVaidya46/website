@@ -78,10 +78,11 @@ function Profile() {
                         
                             history.map(items => (
                                 //console.log(items)
-                                
+                            
                                 <tr key={items.user_id}>
+                                {console.log(items)}
                                 <td className="p-2">
-                                <Link to={`/history/${items._id}`}>{items.method === 'card' ? items.paymentID : items._id}</Link>
+                                <Link  to={`/history/${items._id}`}>{items.method === 'card' ? items.paymentID : items._id}</Link>
                                 </td>
                                 <td>{items.method}</td>
                                 <td className="p-2">

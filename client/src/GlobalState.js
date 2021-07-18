@@ -3,6 +3,7 @@ import React, {createContext, useState, useEffect} from 'react';
 import ProductAPI from './api/ProductAPI';
 import UserAPI from './api/UserAPI';
 import CategoriesAPI from './api/CategoriesAPI'
+//import PaymentAPI from './api/PaymentAPI'
 
 export const GlobalState = createContext()
 
@@ -30,7 +31,8 @@ export const DataProvider = ({children}) => {
         token: [token,setToken],
         productAPI: ProductAPI(),
         userAPI: UserAPI(token),
-        categoriesAPI: CategoriesAPI()
+        categoriesAPI: CategoriesAPI(),
+       // paymentAPI: PaymentAPI()
     }
 
     return(

@@ -20,7 +20,7 @@ function ProductAPI() {
         getProducts()
     },[callback, category, sort, search, page])
 
-
+console.log(sort)
     return {
         products: [products, setProducts],
         callback: [callback, setCallback],

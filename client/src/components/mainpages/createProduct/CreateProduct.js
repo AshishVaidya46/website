@@ -8,8 +8,8 @@ const initialState = {
     product_id: '',
     title: '',
     price: 0,
-    description: 'dslkcjdhfgiau;haffibukfau',
-    content: 'vsdbuilkjadvsbilhk',
+    description: '',
+    content: '',
     category: '',
     _id: ''
 }
@@ -19,7 +19,7 @@ function CreateProduct() {
     const [product, setProduct] = useState(initialState)
     const [categories] = state.categoriesAPI.categories
 
-    const [images, setImages] = useState(false)
+    const [images, setImages] = useState([])
     const [loading, setLoading] = useState(false)
 
     const [isAdmin] = state.userAPI.isAdmin
@@ -44,49 +44,61 @@ function CreateProduct() {
         }else{
             setOnEdit(false)
             setProduct(initialState)
-            setImages(false)
+            setImages([])
         }
     }, [param.id, products])
 
     const handleUpload = async e =>{
-        e.preventDefault()
         try {
+            let newImage = []
+            let num = 0
             if(!isAdmin) return alert("You're not an Admin")
-            const file = e.target.files[0]
+            const file =[...e.target.files]
 
-            if(!file) return alert("File not exits.")
+            file.forEach( files => {
+                if(!files) return alert("File not exits.")
 
-            if(file.size > 1024 * 1024) //1mb
+                if(files.size > 1024 * 1024) //1mb
                 return alert("Size too large!")
-            
-            if(file.type !== 'image/jpeg' && file.type !== 'image/png')
+
+                if(files.type !== 'image/jpeg' && files.type !== 'image/png')
                 return alert("File format is incorrect.")
-            
-            let formData = new FormData()
-            formData.append('file', file)
 
-            setLoading(true)
-            const res = await axios.post('/api/upload', formData, {
-                headers: {'content-type': 'multipart/form-datat', Authorization: token}
+                num += 1;
+                if(num <= 4) newImage.push(files)
+                return newImage;
             })
+           // console.log(newImage)
+            let formData = new FormData()
+            newImage.forEach( image => {
+                formData.append('file',image)
+            })
+            
+            
+            setLoading(true)
+            const res = await axios.post('/api/upload', formData , {
+                headers: {'content-type': 'multipart/form-data', Authorization: token}
+            })
+            console.log(res.data)
             setLoading(false)
-            setImages(res.data)
-
+            setImages(res.data.response)
         } catch (err) {
             alert(err.response.data.msg)
         }
     }
 
-    const handleDestroy = async e =>{
+    const handleDestroy = index =>{
         try {
-            if(!isAdmin) return alert("You're not an Admin")
+           /* if(!isAdmin) return alert("You're not an Admin")
                 setLoading(true)
                 await axios.post('/api/destroy', {public_id: images.public_id}, {
                     headers: {Authorization: token}
                 })
-
-                setLoading(false)
-                setImages(false)
+                setImages([])
+                setLoading(false)*/
+                const newArr = [...images]
+        newArr.splice(index, 1)
+        setImages(newArr)
         } catch (err) {
             alert(err.response.data.msg)
         }
@@ -127,12 +139,19 @@ function CreateProduct() {
     return (
         <div className="create_product">
             <div className = "upload">
-                <input type="file" name="file" id="file_up" onChange={handleUpload} />
+                <input type="file" name="file" id="file_up" onChange={handleUpload} multiple accept="image/*"/>
                 {
                     loading ?<div id="file_img"><Loading /></div>
-                           :<div id="file_img" style={styleUpload}>
-                                <img src={images ? images.url : ''} alt="/"/>
-                                <span onClick={handleDestroy}>x</span>
+                           :<div className="row">
+                             {
+                                 images.map((img, index) => (
+                                     //console.log(img)
+                                    <div key={index} id="file_img" style={styleUpload}>
+                                    <img src={img.url ? img.url : ''} alt={img.url ? img.url : ''}/>
+                                    <span onClick={handleDestroy}>x</span>
+                                    </div> 
+                                 ))
+                             }
                             </div>
                 }
                 
@@ -160,7 +179,7 @@ function CreateProduct() {
                 <div className="row">
                     <label htmlFor="description">Description</label>
                     <textarea type="text" name="description" id="description" required
-                    value={product.description} rows="5" onChange={handleChangeInput}/>
+                    value={product.description} rows="1" onChange={handleChangeInput}/>
                 </div>
 
                 <div className="row">
@@ -175,7 +194,7 @@ function CreateProduct() {
                         <option value="">Please Select a category</option>
                         {
                             categories.map(category => (
-                                <option value={category._id} key={category._id}>
+                                <option value={category.name} key={category._id}>
                                     {category.name}
                                 </option>
                             ))

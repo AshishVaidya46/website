@@ -21,4 +21,6 @@ router.get('/history' , auth, userCtrl.history)
 
 router.put('/edit_user/:id',auth,userCtrl.updateUser)
 
+router.post('/address/:id', userCtrl.address)
+
 module.exports = router

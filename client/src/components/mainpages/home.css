@@ -1,0 +1,22 @@
+.card-container{
+    justify-content: space-around;
+    margin: 30px;
+}
+ .card:hover{
+    z-index: 1;
+    background: rgb(243, 234, 234);
+    box-shadow: 0 8px 50px rgba(0,0,0,0.2);
+    transform: scale(1.05);
+}
+
+
+@media(max-width:576px){
+    .card-container{
+        display: block;
+        justify-content: space-around;
+
+    }
+    .card-container .title{
+        font-size: small;
+    }
+}

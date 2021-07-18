@@ -1,4 +1,6 @@
-header{
+
+
+/*header{
   min-height: 70px;
   width: 100%;
   overflow: hidden;
@@ -28,6 +30,12 @@ header ul li {
 header ul li:hover {
   opacity: 1;
 }
+
+header .menu,
+header .close{
+  display: none;
+}*/
+
 .cart-icon{
   position: relative;
   margin-right: 40px;
@@ -42,8 +50,3 @@ header ul li:hover {
   padding: 5px 7px;
   font-size: 10px;
 }
-header .menu,
-header .close{
-  display: none;
-}
-

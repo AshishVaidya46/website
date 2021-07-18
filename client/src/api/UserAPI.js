@@ -6,12 +6,12 @@ function UserAPI(token) {
     const [isLogged, setIsLogged] = useState(false)
     const [isAdmin, setIsAdmin] = useState(false)
     const [cart, setCart] = useState([])
-    const [total, setTotal] = useState(0)
     const [userID, setUserID] = useState('')
     const [history, setHistory] = useState([])
     const [callback, setCallback] =useState(false)
     const [user, setUser] = useState('') 
     const [users,setUsers] = useState([])
+    const [total, setTotal ] = useState(0)
 
     useEffect(() => {
         if(token) {
@@ -38,7 +38,7 @@ function UserAPI(token) {
             }
             getUser()
         }
-    }, [token,callback, isAdmin])
+    }, [token, isAdmin])
  
     useEffect(() => {
         if(token) {
@@ -49,19 +49,33 @@ function UserAPI(token) {
                     })
                     setHistory(res.data) 
                 }else{
+                    
                     const res = await axios.get('/user/history', {
                         headers: {Authorization: token}
                     })
+                    setHistory(res.data)
                     
-                    setHistory(res.data) 
                 }
             }
             getHistory()
         }
-    }, [token, callback, isAdmin])
+    }, [token, isAdmin])
+
+    useEffect(() => {
+
+        const getTotal = () =>{
+            const total = cart.reduce((prev, item) => {
+                return prev + (item.price * item.quantity)
+            },0)
+
+            setTotal(total)
+        }
+        getTotal()
+    },[cart, setTotal])
 
 
     const addCart = async (product) => {
+        
         if(!isLogged){
             return alert("Please login to continue buying")
         } 
@@ -75,7 +89,6 @@ function UserAPI(token) {
             await axios.patch('/user/addcart', {cart: [...cart, {...product,quantity: 1}]}, {
                 headers: {Authorization: token}
             })
-            alert("This product has been added to cart.")
         }
     }
 
@@ -84,12 +97,12 @@ function UserAPI(token) {
         isAdmin: [isAdmin, setIsAdmin],
         cart: [cart, setCart],
         addCart: addCart,
-        total:[total,setTotal],
         userID: [userID, setUserID],
         history:[history, setHistory],
         callback: [callback, setCallback] ,
         user: [user, setUser],
-        users:[users, setUsers]
+        users:[users, setUsers],
+        total: [total, setTotal]
     });
 }
 

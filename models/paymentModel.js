@@ -18,15 +18,12 @@ const paymentSchema = new mongoose.Schema({
         type: String,
     },
     address:{
-        type: Object,
+        type: Array,
         required: true
     },
-    zipCode: {
-        type: Number
-    },
     contact:{
-        type: String,
-        required:true 
+        type: Array,
+        
     },
     cart:{
         type: Array,
@@ -35,6 +32,9 @@ const paymentSchema = new mongoose.Schema({
     amount:{
         type:String,
         required: true
+    },
+    zipCode: {
+        type: Array
     },
     delivered: {
         type: Boolean,

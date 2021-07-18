@@ -3,6 +3,7 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import{DataProvider} from './GlobalState';
 import Header from './components/headers/Header';
 import MainPages from './components/mainpages/pages';
+import Footer from './components/footer/Footer'
 
 function App() {
   return (
@@ -11,6 +12,8 @@ function App() {
         <div className="container-fluid App">
           <Header/>
           <MainPages />
+          <Footer />
+
         </div>
         </Router>
     </DataProvider>

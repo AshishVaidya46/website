@@ -51,16 +51,41 @@ function Product() {
         setIsCheck(!isCheck)
     }
 
-    const deleteAll =() => {
+    const deleteAll = () => {
         products.forEach(product => {
             if(product.checked) deleteProduct(product._id, product.images.public_id)
         })
     }
 
+    /*const filterItem = async(categItem) => {
+        const items = await axios.get('/api/products')
+        setLoading(true)
+
+        if(categItem === 'All'){
+            setProducts(items.data.products)
+        }else{
+        const updateItem = items.data.products.filter(curItem => {
+            //console.log(curItem)
+            return curItem.category === categItem;
+        });
+        setProducts(updateItem)
+       }
+       setLoading(false)
+    }*/
+    
+
     if(loading) return <div className="products"><Loading /></div>
     return (
         <>
+         
         <Filters />
+    
+        <img className="home_imge" 
+                    src= "https://t4.ftcdn.net/jpg/02/92/56/91/360_F_292569116_Phht4uRj1YIuLFgBhrLu8171npBOcJcr.jpg"
+                    alt=""
+                />
+
+
         {
             isAdmin && 
             <div className="delete-all">
@@ -69,14 +94,17 @@ function Product() {
                 <button onClick={deleteAll}>{isCheck ? 'Delete All' : 'Delete'}</button>
             </div>
         }
-        <div className="products">{
+
+        <div className="container">
+        <div className="products ml-1 row">
+        {
             products.map(product => {
                 return <ProductItem key={product._id} product={product} 
                 isAdmin={isAdmin} deleteProduct={deleteProduct} handleCheck={handleCheck}/>
             })
         }
         </div>
-
+</div>
         <LoadMore />
         {products.length === 0 && <Loading />}
         </>
@@ -84,3 +112,17 @@ function Product() {
 }
 
 export default Product;
+
+
+
+/*<div className=" container" style={{
+            borderBottom: '1px solid crimson',
+            paddingBottom: '6px'
+            }}>
+            <div className="row_category" >
+                <button style={{color: 'crimson'}} onClick={() => filterItem('All')}>All</button>
+                <button style={{color: 'crimson'}} onClick={() => filterItem('laptop')}>laptop</button>
+                <button style={{color: 'crimson'}} onClick={() => filterItem('apple')}>apple</button>
+                <button style={{color: 'crimson'}} onClick={() => filterItem('Women')}>Women</button>
+            </div>
+        </div>*/

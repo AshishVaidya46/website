@@ -30,6 +30,12 @@
     font-weight: 900;
     cursor: pointer;
 }
-.total h4{
-    color: crimson;
+.total {
+    align-items: flex-end;
+    text-transform: capitalize;
+}
+
+.card_payment{
+    flex: 0.8;
+    margin-top: 10px;
 }

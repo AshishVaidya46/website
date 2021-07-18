@@ -1,13 +1,11 @@
 import React, {useState} from 'react'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
-import valid from './valid'
 
 function Register() {
     const [user, setUser] = useState({
-        name:'', email:'', password: ''
+        name:'', email:'', contact: '', password: ''
     })
-    const {name, email, password} = user
 
     const onChangeInput = e =>{
         const {name, value} = e.target;
@@ -16,8 +14,6 @@ function Register() {
 
     const registerSubmit = async e =>{
         e.preventDefault()
-        const errMsg = valid(name, email, password)
-        if(errMsg) return alert(errMsg)
         try {
             await axios.post('/user/register', {...user})
 
@@ -39,6 +35,9 @@ function Register() {
 
                 <input type="email" name="email" required
                 placeholder="Email" value={user.email} onChange={onChangeInput} />
+
+                <input type="text" name="contact" required
+                placeholder="contact" value={user.contact} onChange={onChangeInput} />
 
                 <input type="password" name="password" required autoComplete="on"
                 placeholder="Password" value={user.password} onChange={onChangeInput} />

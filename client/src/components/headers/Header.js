@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import {GlobalState} from '../../GlobalState';
 import Cart from './icon/cart.svg';
+import Logo1 from './icon/logo1.png'
 import axios from 'axios';
-import userImg from './icon/user.svg'
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Navbar, Nav, NavDropdown} from 'react-bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 
 
@@ -14,6 +14,12 @@ function Header() {
    const [isAdmin] = state.userAPI.isAdmin
    const [cart] = state.userAPI.cart
    const [user] =state.userAPI.user
+   
+   const [categories] =state.categoriesAPI.categories
+   const [category, setCategory] = state.productAPI.category
+   const [ setSearch] =state.productAPI.search
+
+
 
    const logoutUser = async () =>{
        await axios.get('/user/logout')
@@ -22,27 +28,39 @@ function Header() {
    }
 
    const adminRouter = () =>{
-       return(
+       return( 
            <>
                <Nav.Link href="/create_product">Create Product</Nav.Link>
                <Nav.Link href="/category" >Catogories</Nav.Link>
            </>
        )
    }
+   const handleCategory = e => {
+       //console.log(e.target.value)
+       setCategory(e.target.value)
+       setSearch('')
+}
    const loggedRouter = () =>{
     return(
       <>
         <NavDropdown title={isAdmin ? 'Admin' : user.name} id="basic-nav-dropdown">
-        <img src={userImg} alt={userImg} 
-                    style={{
-                        borderRadius: '50%', width: '28px', height: '28px',
-                        transform: 'translateY(-3px)', marginRight: '3px'
-                    }} /> <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
+         <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
                     {
                         isAdmin &&  <NavDropdown.Item href="/user_info">Users</NavDropdown.Item>
                     }
             <NavDropdown.Divider />
              <NavDropdown.Item href="/" onClick={logoutUser}>Logout</NavDropdown.Item>
+        </NavDropdown>
+        <NavDropdown defaultValue={category} title="Categories" id="basic-nav-dropdown">
+            {
+                categories.map(category => (
+                    <NavDropdown.Item onClick={handleCategory} key={category._id}>
+                    <option value={"category=" + category._id} key={category._id} >
+                            {category.name}
+                        </option>
+                    </NavDropdown.Item>
+                ))
+            }
         </NavDropdown>
         
       </>
@@ -52,12 +70,12 @@ function Header() {
 
     return (
         <Navbar bg="light" expand="lg">
-  <Navbar.Brand href="/">Elegnate</Navbar.Brand>
+  <Navbar.Brand style={{fontFamily:"cursive"}}  href="/home"><img src={Logo1} alt={Logo1}  width="45"/>Elegnate</Navbar.Brand>
   <Navbar.Toggle aria-controls="basic-navbar-nav" className="justify-content-end" />
   <Navbar.Collapse id="basic-navbar-nav">
-    <Nav className="mr-auto"> </Nav> 
+    <Nav className="ml-auto">      
 
-      <Nav.Link href="/">{isAdmin ? 'Products' : 'Home'}</Nav.Link>
+      <Nav.Link href="/home">{isAdmin ? 'Products' : 'Home'}</Nav.Link>
       {isAdmin && adminRouter()}
                 {
                     isLogged ? loggedRouter() : <Nav.Link href="/login">Login OR Register</Nav.Link>
@@ -81,6 +99,7 @@ function Header() {
                                 </i> <img src={Cart} alt={Cart} width='25'/>
                         </Nav.Link>
             }
+            </Nav>
   </Navbar.Collapse>
 </Navbar>
 

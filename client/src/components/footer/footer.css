@@ -1,0 +1,147 @@
+.footer{
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding: 50px 100px;
+    background: rgb(105, 35, 35);
+    display: flex;
+    justify-content: space-around;
+    color: #eee;
+    flex-wrap: wrap;
+  }
+.aboutus{
+    margin-right: 40px;
+}
+.aboutus{
+    width: 40%;
+}
+.aboutus h2{
+    position: relative;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+.aboutus h2:before{
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background:  rgb(151, 184, 32);
+}
+.aboutus p{
+    color:#999
+}
+.aboutus ul{
+    margin-top: 20px;
+    display: flex;
+}
+.aboutus ul li{
+    list-style: none;
+}
+.aboutus ul li {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background: rgb(206, 37, 37);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    text-decoration: none;
+    border-radius: 4px;
+}
+.aboutus ul li:hover{
+    background: rgb(199, 173, 173);
+    color: black;
+    cursor: pointer;
+}
+.quickLinks h2{
+    position: relative;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+.quickLinks h2:before{
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background:  rgb(151, 184, 32);
+}
+.quickLinks{
+    position: relative;
+    width: 25%;
+}
+.quickLinks ul li{
+    color: #999;
+    text-decoration: none;
+
+}
+.quickLinks ul li:hover{
+    color: white;
+    text-decoration: none;
+
+}
+.quickLinks ul li a{
+    margin-bottom: 10px;
+    display: inline-block;
+    cursor: pointer;
+}
+.info h2{
+    position: relative;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+.info h2:before{
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: rgb(151, 184, 32);
+}
+.info ul li {
+    color: #999;
+}
+.info ul li p a{ 
+    color:#999;
+    text-decoration: none;
+}
+.info ul li p a:hover{ 
+    color:white;
+}
+
+.copyright{
+    text-align: center;
+    background: rgb(77, 27, 27);
+    color: wheat;
+}
+
+@media (max-width:576px){
+    .footer{
+        padding: 40px;
+    }
+    .aboutus{
+        width: 100%;
+    }
+    .quickLinks{
+        width: 100%;
+    }
+    .info{
+        width: 100%;
+    }
+}
+@media (max-width: 850px){
+    .aboutus{
+        width: 100%;
+    }
+    .quickLinks{
+        width: 100%;
+    }
+    .info{
+        width: 100%;
+    }
+}
